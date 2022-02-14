@@ -1,26 +1,21 @@
 import requests
+from bs4 import BeautifulSoup
 import time
 
 
 def fetch(url):
     time.sleep(1)
     try:
-        response = requests.get(url, timeout=3)
-        status_code = response.status_code
+        headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+        html = requests.get(url, headers=headers, timeout=3)
+        if html.status_code == 200: 
+            return html.text
 
-        if status_code == 200:
-            return response.text
+    except:
+        return None 
 
-        return None
-
-    except requests.ReadTimeout:
-        return None
-
-
-# Requisito 2
 def scrape_novidades(html_content):
     """Seu código deve vir aqui"""
-
 
 # Requisito 3
 def scrape_next_page_link(html_content):
