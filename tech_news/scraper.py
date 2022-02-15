@@ -22,7 +22,7 @@ def scrape_novidades(html_content):
         
         news = []
         for new in soup.find_all('div', {'class': 'tec--list__item'}):
-            news.append(new.find('article', {'class': 'tec--card tec--card--medium'}).figure.a["href"])
+            news.append(new.find('a', {'class': 'tec--card__thumb__link'})["href"])
         
         return news
         
