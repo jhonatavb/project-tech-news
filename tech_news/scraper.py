@@ -53,7 +53,7 @@ def scrape_next_page_link(html_content):
 
         return button_pagination
 
-    except Exception as e: 
+    except Exception:
         return None
 
 
