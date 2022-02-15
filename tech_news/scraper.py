@@ -8,14 +8,27 @@ def fetch(url):
     try:
         headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
         html = requests.get(url, headers=headers, timeout=3)
+        
         if html.status_code == 200: 
-            return html.text
+           return html.text 
 
     except:
         return None 
 
 def scrape_novidades(html_content):
-    """Seu código deve vir aqui"""
+    try:
+        soup = BeautifulSoup(html_content, 'html.parser')
+        soup.prettify()
+        
+        news = []
+        for new in soup.find_all('div', {'class': 'tec--list__item'}):
+            news.append(new.find('article', {'class': 'tec--card tec--card--medium'}).figure.a["href"])
+        
+        return news
+        
+    except:
+        return [] 
+     
 
 # Requisito 3
 def scrape_next_page_link(html_content):
