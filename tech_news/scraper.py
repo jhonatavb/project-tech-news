@@ -69,7 +69,6 @@ def scrape_next_page_link(html_content):
 
 
 def scrape_noticia(html_content):
-    # links = scrape_novidades(html_content)
     soup = BeautifulSoup(html_content, "html.parser")
     soup.prettify()
     links = []
@@ -78,10 +77,6 @@ def scrape_noticia(html_content):
     links.append(soup.find("link", {"rel": "canonical"})["href"])
 
     for link in links:
-        # html_page = fetch(link)
-        # soup = BeautifulSoup(html_page, "html.parser")
-        # soup.prettify()
-
         new_dict["url"] = link
         new_dict["title"] = get_title(soup)
         new_dict["timestamp"] = get_timestamp(soup)
