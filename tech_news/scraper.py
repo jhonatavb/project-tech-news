@@ -2,7 +2,6 @@ import requests
 from bs4 import BeautifulSoup
 import time
 
-# from tech_news.aux_func import *
 from tech_news.aux_func import (
     get_title,
     get_timestamp,
