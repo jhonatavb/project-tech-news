@@ -38,6 +38,13 @@ def search_by_source(source):
     return list_tuple
 
 
-# Requisito 9
+
 def search_by_category(category):
-    """Seu código deve vir aqui"""
+    search_list = search_news({"categories": {"$regex": category, "$options": "i"}})
+    list_tuple = list()
+
+
+    if search_list: 
+        list_tuple.append((search_list[0]["title"], search_list[0]["url"]))
+
+    return list_tuple
