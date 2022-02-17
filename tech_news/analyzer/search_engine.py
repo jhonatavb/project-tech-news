@@ -28,9 +28,14 @@ def search_by_date(date):
     return list_tuple
 
 
-# Requisito 8
 def search_by_source(source):
-    """Seu código deve vir aqui"""
+    search_list = search_news({"sources": {"$regex": source, "$options": "i"}})
+    list_tuple = list()
+
+    if search_list:
+        list_tuple.append((search_list[0]["title"], search_list[0]["url"]))
+
+    return list_tuple
 
 
 # Requisito 9
