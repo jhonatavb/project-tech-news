@@ -38,13 +38,13 @@ def search_by_source(source):
     return list_tuple
 
 
-
 def search_by_category(category):
-    search_list = search_news({"categories": {"$regex": category, "$options": "i"}})
+    search_list = search_news(
+        {"categories": {"$regex": category, "$options": "i"}}
+    )
     list_tuple = list()
 
-
-    if search_list: 
+    if search_list:
         list_tuple.append((search_list[0]["title"], search_list[0]["url"]))
 
     return list_tuple
