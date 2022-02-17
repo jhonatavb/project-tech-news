@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import time
+from tech_news.database import create_news
 
 from tech_news.aux_func import (
     get_title,
@@ -36,7 +37,7 @@ def scrape_novidades(html_content):
         soup = BeautifulSoup(html_content, "html.parser")
         soup.prettify()
 
-        news = []
+        news = list()
         for new in soup.find_all("div", {"class": "tec--list__item"}):
             news.append(
                 new.find("a", {"class": "tec--card__thumb__link"})["href"]
@@ -70,7 +71,7 @@ def scrape_next_page_link(html_content):
 def scrape_noticia(html_content):
     soup = BeautifulSoup(html_content, "html.parser")
     soup.prettify()
-    links = []
+    links = list()
     new_dict = dict()
 
     links.append(soup.find("link", {"rel": "canonical"})["href"])
@@ -89,6 +90,30 @@ def scrape_noticia(html_content):
     return new_dict
 
 
-# Requisito 5
+def get_amount_url(amount):
+    html_content = fetch("https://www.tecmundo.com.br/novidades")
+    urls_list = list()
+
+    while len(urls_list) < amount:
+        news = scrape_novidades(html_content)
+        urls_list.extend(news)
+        if len(urls_list) < amount:
+            new_page = scrape_next_page_link(html_content)
+            html_content = fetch(new_page)
+
+    return urls_list[0:amount]
+
+
 def get_tech_news(amount):
-    """Seu código deve vir aqui"""
+    urls_list = get_amount_url(amount)
+    news_list = list()
+
+    for url in urls_list:
+        if len(news_list) < amount:
+            fetch_html_content = fetch(url)
+            new = scrape_noticia(fetch_html_content)
+            news_list.append(new)
+
+    create_news(news_list)
+
+    return news_list
